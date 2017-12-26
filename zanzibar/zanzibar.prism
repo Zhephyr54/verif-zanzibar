@@ -1,4 +1,4 @@
-﻿// Modélisation du jeu de Zanzibar (jeu de dés)
+// Modélisation du jeu de Zanzibar (jeu de dés)
 
 // Définition du nombre de lancers maximum autorisés
 const int NB_MAX_LANCERS = 3;
