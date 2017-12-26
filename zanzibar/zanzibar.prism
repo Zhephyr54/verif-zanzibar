@@ -1,54 +1,54 @@
-// Modélisation du jeu de Zanzibar (jeu de dés)
+ï»¿// ModÃ©lisation du jeu de Zanzibar (jeu de dÃ©s)
 
-// Définition du nombre de lancers maximum autorisés
+// DÃ©finition du nombre de lancers maximum autorisÃ©s
 const int NB_MAX_LANCERS = 3;
 
-// Définition du nombre de joueurs
+// DÃ©finition du nombre de joueurs
 const int NB_JOUEURS = 2;
 const int TOUR_J1 = 1;
 const int TOUR_J2 = 2;
 
-// Définition du total de points à atteindre pour gagner
+// DÃ©finition du total de points Ã  atteindre pour gagner
 const int POINTS_VICTOIRE = 10;
 
 formula partieTerminee = scoreJ1 >= POINTS_VICTOIRE | scoreJ2 >= POINTS_VICTOIRE;
 
-// Les formules suivantes s'adaptent sans besoin de modifications grâce au renommage du module du joueur1
+// Les formules suivantes s'adaptent sans besoin de modifications grÃ¢ce au renommage du module du joueur1
 
-// Formule booléenne permettant de vérifier que les 3 dés ont été lancés
+// Formule boolÃ©enne permettant de vÃ©rifier que les 3 dÃ©s ont Ã©tÃ© lancÃ©s
 formula desLancesJ1 = de1J1 != 0 & de2J1 != 0 & de3J1 != 0;
-// Formule booléene vérifiant si le joueur a réussi un brelan (3 dés identiques)
+// Formule boolÃ©ene vÃ©rifiant si le joueur a rÃ©ussi un brelan (3 dÃ©s identiques)
 formula brelanJ1 = de1J1 = de2J1 & de1J1 = de3J1;
 
 dtmc
 
 module joueur1
-	// Le jeu se joue avec 3 dés
-	// La valeur 0 signifie que le dé n'a pas encore été lancé
+	// Le jeu se joue avec 3 dÃ©s
+	// La valeur 0 signifie que le dÃ© n'a pas encore Ã©tÃ© lancÃ©
 	de1J1 : [0..6] init 0;
 	de2J1 : [0..6] init 0;
 	de3J1 : [0..6] init 0;
-	// Le nombre de relances effectuées par ce joueur
+	// Le nombre de relances effectuÃ©es par ce joueur
 	nbRelancesJ1 : [0..NB_MAX_LANCERS-1] init 0;
 	// Le score du joueur 1
 	scoreJ1 : [0..POINTS_VICTOIRE+100] init 0;
 
-	// Lancer des dés 1, 2 et 3
+	// Lancer des dÃ©s 1, 2 et 3
 	[] !partieTerminee & tourJoueur=TOUR_J1 & de1J1=0 -> 1/6 : (de1J1'=1) + 1/6 : (de1J1'=2) + 1/6 : (de1J1'=3) + 1/6 : (de1J1'=4) + 1/6 : (de1J1'=5) + 1/6 : (de1J1'=6);
 	[] !partieTerminee & tourJoueur=TOUR_J1 & de1J1!=0 & de2J1=0 -> 1/6 : (de2J1'=1) + 1/6 : (de2J1'=2) + 1/6 : (de2J1'=3) + 1/6 : (de2J1'=4) + 1/6 : (de2J1'=5) + 1/6 : (de2J1'=6);
 	[] !partieTerminee & tourJoueur=TOUR_J1 & de1J1!=0 & de2J1!=0 & de3J1=0 -> 1/6 : (de3J1'=1) + 1/6 : (de3J1'=2) + 1/6 : (de3J1'=3) + 1/6 : (de3J1'=4) + 1/6 : (de3J1'=5) + 1/6 : (de3J1'=6);
-	// Relance d'un seul dé
+	// Relance d'un seul dÃ©
 	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees-> (de1J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
-	// Relance de 2 dés
+	// Relance de 2 dÃ©s
 	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=0) & (de2J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
-	// Relance des 3 dés
+	// Relance des 3 dÃ©s
 	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=0) & (de2J1'=0) & (de3J1'=0);
 
-	// Gestion de la fin du tour de ce joueur et de son score (par ordre décroissant)
+	// Gestion de la fin du tour de ce joueur et de son score (par ordre dÃ©croissant)
 	// Brelans de 1 (as)
 	[finTourJ1] scoreJ1<POINTS_VICTOIRE & tourJoueur=TOUR_J1 & brelanJ1 & de1J1=1 -> (scoreJ1' = scoreJ1 + 100) & (nbRelancesJ1' = 0);
 	// Brelans de 6
@@ -70,25 +70,25 @@ module joueur2 = joueur1 [de1J1 = de1J2, de2J1 = de2J2, de3J1 = de3J2, nbRelance
 module jeu
 	// Le joueur dont c'est le tour de jouer.
 	tourJoueur : [1..NB_JOUEURS] init 1;
-	// Booléen indiquant si c'est au premier joueur du tour de jouer
+	// BoolÃ©en indiquant si c'est au premier joueur du tour de jouer
 	premierJoueur: bool init true;
-	// Le nombre de relances autorisées à cet instant
+	// Le nombre de relances autorisÃ©es Ã  cet instant
 	nbRelancesAutorisees : [0..NB_MAX_LANCERS-1] init NB_MAX_LANCERS-1;
-	// Le numéro du joueur gagnant. 0 si le gagnant n'est pas encore déterminé
+	// Le numÃ©ro du joueur gagnant. 0 si le gagnant n'est pas encore dÃ©terminÃ©
 	gagnant : [0..NB_JOUEURS] init 0;
 
 	// Fin du tour d'un joueur : au tour du joueur suivant
-	// S'il s'agit du premier joueur pour ce tour, on note le nombre de relances maximum autorisées
+	// S'il s'agit du premier joueur pour ce tour, on note le nombre de relances maximum autorisÃ©es
 	[finTourJ1] tourJoueur<NB_JOUEURS & premierJoueur -> (tourJoueur' = tourJoueur + 1) & (nbRelancesAutorisees' = nbRelancesJ1) & (premierJoueur' = false);
 	[finTourJ1] tourJoueur<NB_JOUEURS & !premierJoueur -> (tourJoueur' = tourJoueur + 1);
-	// Fin d'un tour de table complet : on réinitialise le nombre de relances maximum autorisées
+	// Fin d'un tour de table complet : on rÃ©initialise le nombre de relances maximum autorisÃ©es
  	[finTourJ1] tourJoueur=NB_JOUEURS -> (tourJoueur' = 1) & (nbRelancesAutorisees' = NB_MAX_LANCERS-1) & (premierJoueur' = true);
 
 	// Fin du tour d'un joueur : au tour du joueur suivant
-	// S'il s'agit du premier joueur pour ce tour, on note le nombre de relances maximum autorisées
+	// S'il s'agit du premier joueur pour ce tour, on note le nombre de relances maximum autorisÃ©es
 	[finTourJ2] tourJoueur<NB_JOUEURS & premierJoueur -> (tourJoueur' = tourJoueur + 1) & (nbRelancesAutorisees' = nbRelancesJ2) & (premierJoueur' = false);
 	[finTourJ2] tourJoueur<NB_JOUEURS & !premierJoueur -> (tourJoueur' = tourJoueur + 1);
-	// Fin d'un tour de table complet : on réinitialise le nombre de relances maximum autorisées
+	// Fin d'un tour de table complet : on rÃ©initialise le nombre de relances maximum autorisÃ©es
  	[finTourJ2] tourJoueur=NB_JOUEURS -> (tourJoueur' = 1) & (nbRelancesAutorisees' = NB_MAX_LANCERS-1) & (premierJoueur' = true);
 
 	[] gagnant=0 & scoreJ1>=POINTS_VICTOIRE -> (gagnant' = 1);
