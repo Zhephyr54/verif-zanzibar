@@ -1,0 +1,92 @@
+// Modélisation du jeu de Zanzibar (jeu de dés)
+
+// Définition du nombre de lancers maximum autorisés
+const int NB_MAX_LANCERS = 3;
+
+// Définition du nombre de joueurs
+const int NB_JOUEURS = 2;
+const int TOUR_J1 = 1;
+const int TOUR_J2 = 2;
+
+// Les formules suivantes s'adaptent sans besoin de modifications grâce au renommage du module du joueur1
+
+// Formule booléenne permettant de vérifier que les 3 dés ont été lancés
+formula desLancesJ1 = de1J1 != 0 & de2J1 != 0 & de3J1 != 0;
+// Formule booléene vérifiant si le joueur a réussi un brelan (3 dés identiques)
+formula brelanJ1 = de1J1 = de2J1 & de1J1 = de3J1;
+
+dtmc
+
+module joueur1
+	// Le jeu se joue avec 3 dés
+	// La valeur 0 signifie que le dé n'a pas encore été lancé
+	de1J1 : [0..6] init 0;
+	de2J1 : [0..6] init 0;
+	de3J1 : [0..6] init 0;
+	// Le nombre de relances effectuées par ce joueur
+	nbRelancesJ1 : [0..NB_MAX_LANCERS-1] init 0;
+	// Le score du joueur 1
+	scoreJ1 : [0..100] init 0;
+
+	// Lancer des dés 1, 2 et 3
+	[] tourJoueur=TOUR_J1 & de1J1=0 -> 1/6 : (de1J1'=1) + 1/6 : (de1J1'=2) + 1/6 : (de1J1'=3) + 1/6 : (de1J1'=4) + 1/6 : (de1J1'=5) + 1/6 : (de1J1'=6);
+	[] tourJoueur=TOUR_J1 & de2J1=0 -> 1/6 : (de2J1'=1) + 1/6 : (de2J1'=2) + 1/6 : (de2J1'=3) + 1/6 : (de2J1'=4) + 1/6 : (de2J1'=5) + 1/6 : (de2J1'=6);
+	[] tourJoueur=TOUR_J1 & de3J1=0 -> 1/6 : (de3J1'=1) + 1/6 : (de3J1'=2) + 1/6 : (de3J1'=3) + 1/6 : (de3J1'=4) + 1/6 : (de3J1'=5) + 1/6 : (de3J1'=6);
+	// Relance d'un seul dé
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees-> (de1J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	// Relance de 2 dés
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=0) & (de2J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	// Relance des 3 dés
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=0) & (de2J1'=0) & (de3J1'=0);
+
+	// Gestion de la fin du tour de ce joueur et de son score (par ordre décroissant)
+	// Brelans de 1 (as)
+	[finTourJ1] tourJoueur=TOUR_J1 & brelanJ1 & de1J1=1 -> (scoreJ1' = 100) & (nbRelancesJ1' = 0);
+	// Brelans de 6
+	[finTourJ1] tourJoueur=TOUR_J1 & brelanJ1 & de1J1=6 -> (scoreJ1' = 60) & (nbRelancesJ1' = 0);
+	// Brelans de 5
+	[finTourJ1] tourJoueur=TOUR_J1 & brelanJ1 & de1J1=5 -> (scoreJ1' = 5) & (nbRelancesJ1' = 0);
+	// Brelans de 4
+	[finTourJ1] tourJoueur=TOUR_J1 & brelanJ1 & de1J1=4 -> (scoreJ1' = 4) & (nbRelancesJ1' = 0);
+	// Brelans de 3
+	[finTourJ1] tourJoueur=TOUR_J1 & brelanJ1 & de1J1=3 -> (scoreJ1' = 3) & (nbRelancesJ1' = 0);
+	// Brelans de 2
+	[finTourJ1] tourJoueur=TOUR_J1 & brelanJ1 & de1J1=2 -> (scoreJ1' = 2) & (nbRelancesJ1' = 0);
+	// Aucun brelan (0 point)
+	[finTourJ1] tourJoueur=TOUR_J1 & desLancesJ1 & !brelanJ1 -> (nbRelancesJ1' = 0);
+endmodule
+
+module joueur2 = joueur1 [de1J1 = de1J2, de2J1 = de2J2, de3J1 = de3J2, nbRelancesJ1 = nbRelancesJ2, scoreJ1 = scoreJ2, TOUR_J1 = TOUR_J2, finTourJ1 = finTourJ2] endmodule
+
+module jeu
+	// Le joueur dont c'est le tour de jouer. 0 lorsque la partie est terminée
+	tourJoueur : [0..NB_JOUEURS] init 1;
+	// Booléen indiquant si c'est au premier joueur du tour de jouer
+	premierJoueur: bool init true;
+	// Le nombre de relances autorisées à cet instant
+	nbRelancesAutorisees : [0..NB_MAX_LANCERS-1] init NB_MAX_LANCERS-1;
+	// Le numéro du joueur gagnant. 0 si le gagnant n'est pas encore déterminé
+	gagnant : [0..NB_JOUEURS] init 0;
+
+	// Fin du tour d'un joueur : au tour du joueur suivant
+	// S'il s'agit du premier joueur pour ce tour, on note le nombre de relances maximum autorisées
+	[finTourJ1] tourJoueur<NB_JOUEURS & premierJoueur -> (tourJoueur' = tourJoueur + 1) & (nbRelancesAutorisees' = nbRelancesJ1) & (premierJoueur' = false);
+	[finTourJ1] tourJoueur<NB_JOUEURS & !premierJoueur -> (tourJoueur' = tourJoueur + 1);
+	// Fin d'un tour de table complet : on réinitialise le nombre de relances maximum autorisées
+ 	[finTourJ1] tourJoueur=NB_JOUEURS -> (tourJoueur' = 0) & (nbRelancesAutorisees' = NB_MAX_LANCERS-1) & (premierJoueur' = true);
+
+	// Fin du tour d'un joueur : au tour du joueur suivant
+	// S'il s'agit du premier joueur pour ce tour, on note le nombre de relances maximum autorisées
+	[finTourJ2] tourJoueur<NB_JOUEURS & premierJoueur -> (tourJoueur' = tourJoueur + 1) & (nbRelancesAutorisees' = nbRelancesJ2) & (premierJoueur' = false);
+	[finTourJ2] tourJoueur<NB_JOUEURS & !premierJoueur -> (tourJoueur' = tourJoueur + 1);
+	// Fin d'un tour de table complet : on réinitialise le nombre de relances maximum autorisées
+ 	[finTourJ2] tourJoueur=NB_JOUEURS -> (tourJoueur' = 0) & (nbRelancesAutorisees' = NB_MAX_LANCERS-1) & (premierJoueur' = true);
+
+	[] tourJoueur=0 & gagnant=0 & scoreJ1>scoreJ2  -> (gagnant' = 1);
+	[] tourJoueur=0 & gagnant=0 & scoreJ1<=scoreJ2 -> (gagnant' = 2);
+endmodule
+
