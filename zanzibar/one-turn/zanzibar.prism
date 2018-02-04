@@ -1,0 +1,66 @@
+// Modélisation d'un tour de jeu du zanzibar entre 2 joueurs
+// dont les actions du premier joueur sont fixées à l'avance
+
+// Définition du nombre de lancers maximum autorisés
+const int NB_MAX_LANCERS = 3;
+
+const int DE_1;
+const int DE_2;
+const int DE_3;
+const int NB_LANCERS;
+
+const bool BRELAN_ = DE_1 = DE_2 & DE_2 = DE_3;
+
+// Formule booléenne permettant de vérifier que les 3 dés ont été lancés
+formula desLances = de1 != 0 & de2 != 0 & de3 != 0;
+// Formule booléene vérifiant si le joueur a réussi un brelan (3 dés identiques)
+formula brelan = de1 = de2 & de1 = de3;
+
+// Formule booléene indiquant si le 1er joueur a gagné le tour
+formula j1Gagne = BRELAN_ & DE_1=1 & !(brelan & de1=1)
+		| BRELAN_ & DE_1=6 & !(brelan & de1=1) & !(brelan & de1=6)
+		| BRELAN_ & DE_1=5 & !(brelan & de1=1) & !(brelan & de1=6) & !(brelan & de1=5)
+		| BRELAN_ & DE_1=4 & !(brelan & de1=1) & !(brelan & de1=6) & !(brelan & de1=5) & !(brelan & de1=4)
+		| BRELAN_ & DE_1=3 & !(brelan & de1=1) & !(brelan & de1=6) & !(brelan & de1=5) & !(brelan & de1=4) & !(brelan & de1=3)
+		| BRELAN_ & DE_1=2 & !(brelan & de1=1) & !(brelan & de1=6) & !(brelan & de1=5) & !(brelan & de1=4) & !(brelan & de1=3) & !(brelan & de1=2);
+
+mdp
+
+// Module représentant le 2ème joueur
+module joueur
+	// Le jeu se joue avec 3 dés
+	// La valeur 0 signifie que le dé n'a pas encore été lancé
+	de1 : [0..6] init 0;
+	de2 : [0..6] init 0;
+	de3 : [0..6] init 0;
+	// Le nombre de relances effectuées par ce joueur
+	nbRelances : [0..NB_MAX_LANCERS-1] init 0;
+	
+	// Lancer des dés 1, 2 et 3
+	[] !fini & de1=0 -> 1/6 : (de1'=1) + 1/6 : (de1'=2) + 1/6 : (de1'=3) + 1/6 : (de1'=4) + 1/6 : (de1'=5) + 1/6 : (de1'=6);
+	[] !fini & de1!=0 & de2=0 -> 1/6 : (de2'=1) + 1/6 : (de2'=2) + 1/6 : (de2'=3) + 1/6 : (de2'=4) + 1/6 : (de2'=5) + 1/6 : (de2'=6);
+	[] !fini & de1!=0 & de2!=0 & de3=0 -> 1/6 : (de3'=1) + 1/6 : (de3'=2) + 1/6 : (de3'=3) + 1/6 : (de3'=4) + 1/6 : (de3'=5) + 1/6 : (de3'=6);
+	// Relance d'un seul dé
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de1'=0) & (nbRelances' = nbRelances + 1);
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de2'=0) & (nbRelances' = nbRelances + 1);
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de3'=0) & (nbRelances' = nbRelances + 1);
+	// Relance de 2 dés
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de1'=0) & (de2'=0) & (nbRelances' = nbRelances + 1);
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de2'=0) & (de3'=0) & (nbRelances' = nbRelances + 1);
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de2'=0) & (de3'=0) & (nbRelances' = nbRelances + 1);
+	// Relance des 3 dés
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de1'=0) & (de2'=0) & (de3'=0) & (nbRelances' = nbRelances + 1);
+
+endmodule
+
+module jeu
+	// Booléen indiquant si le tour est terminée
+	fini : bool init false;
+	// Booléen indiquant si le joueur 1 (dont les actions sont prédéterminées) a gagné
+	gagnant : bool init false;
+	
+	// 1er joueur gagnant
+	[] !fini & desLances & j1Gagne -> (fini' = true) & (gagnant' = true);
+	// sinon
+	[] !fini & desLances & !j1Gagne -> (fini' = true) & (gagnant' = false);
+endmodule
