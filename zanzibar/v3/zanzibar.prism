@@ -86,6 +86,8 @@ module joueur1
 		| (tourJoueur=TOUR_J2 & de1J2=2 & de2J2=2 & de3J2=2) ) -> (scoreJ1' = scoreJ1 + 20) & (de1J1' = 0) & (de2J1' = 0) & (de3J1' = 0);
 
 	[victoireTourJ2] true -> (de1J1' = 0) & (de2J1' = 0) & (de3J1' = 0);
+
+	[tourNul] true -> (de1J1' = 0) & (de2J1' = 0) & (de3J1' = 0);
 endmodule
 
 module joueur2 = joueur1 [de1J1 = de1J2, de2J1 = de2J2, de3J1 = de3J2, de1J2 = de1J1, de2J2 = de2J1, de3J2 = de3J1, nbRelancesJ1 = nbRelancesJ2, scoreJ1 = scoreJ2, scoreJ2 = scoreJ1, TOUR_J1 = TOUR_J2, TOUR_J2 = TOUR_J1, finTourJ1 = finTourJ2, victoireTourJ1 = victoireTourJ2, victoireTourJ2 = victoireTourJ1] endmodule
@@ -122,8 +124,8 @@ module jeu
 	[victoireTourJ2] nbJoueurRestant=0 -> (nbJoueurRestant' = NB_JOUEURS) & (tourJoueur' = TOUR_J1);
 	// Aucun brelan pour tous les joueurs
 	// C'est au joueur ayant joué en dernier de joueur en premier au prochain tour
-	[] nbJoueurRestant=0 & !brelanJ1 & !brelanJ2 & tourJoueur=TOUR_J1 -> (tourJoueur' = TOUR_J2);
-	[] nbJoueurRestant=0 & !brelanJ1 & !brelanJ2 & tourJoueur=TOUR_J2 -> (tourJoueur' = TOUR_J1);
+	[tourNul] nbJoueurRestant=0 & !brelanJ1 & !brelanJ2 & tourJoueur=TOUR_J1 -> (nbJoueurRestant' = NB_JOUEURS) & (tourJoueur' = TOUR_J1);
+	[tourNul] nbJoueurRestant=0 & !brelanJ1 & !brelanJ2 & tourJoueur=TOUR_J2 -> (nbJoueurRestant' = NB_JOUEURS) & (tourJoueur' = TOUR_J2);
 
 	[] gagnant=0 & scoreJ1>=POINTS_VICTOIRE -> (gagnant' = 1);
 	[] gagnant=0 & scoreJ2>=POINTS_VICTOIRE -> (gagnant' = 2);
