@@ -1,9 +1,10 @@
 // Modélisation d'un tour de jeu du zanzibar entre 2 joueurs
-// dont les actions du premier joueur sont fixées à l'avance
+// dont le résultat du premier joueur est fixé à l'avance (résultats du lancer des dés et du nombre de lancers)
 
 // Définition du nombre de lancers maximum autorisés
 const int NB_MAX_LANCERS = 3;
 
+// Paramètres à fixer du joueur 1
 const int DE_1;
 const int DE_2;
 const int DE_3;
@@ -13,10 +14,10 @@ const bool BRELAN_ = DE_1 = DE_2 & DE_2 = DE_3;
 
 // Formule booléenne permettant de vérifier que les 3 dés ont été lancés
 formula desLances = de1 != 0 & de2 != 0 & de3 != 0;
-// Formule booléene vérifiant si le joueur a réussi un brelan (3 dés identiques)
+// Formule booléenne vérifiant si le joueur a réussi un brelan (3 dés identiques)
 formula brelan = de1 = de2 & de1 = de3;
 
-// Formule booléene indiquant si le 1er joueur a gagné le tour
+// Formule booléenne indiquant si le 1er joueur a gagné le tour
 formula j1Gagne = BRELAN_ & DE_1=1 & !(brelan & de1=1)
 		| BRELAN_ & DE_1=6 & !(brelan & de1=1) & !(brelan & de1=6)
 		| BRELAN_ & DE_1=5 & !(brelan & de1=1) & !(brelan & de1=6) & !(brelan & de1=5)
@@ -41,16 +42,15 @@ module joueur
 	[] !fini & de1!=0 & de2=0 -> 1/6 : (de2'=1) + 1/6 : (de2'=2) + 1/6 : (de2'=3) + 1/6 : (de2'=4) + 1/6 : (de2'=5) + 1/6 : (de2'=6);
 	[] !fini & de1!=0 & de2!=0 & de3=0 -> 1/6 : (de3'=1) + 1/6 : (de3'=2) + 1/6 : (de3'=3) + 1/6 : (de3'=4) + 1/6 : (de3'=5) + 1/6 : (de3'=6);
 	// Relance d'un seul dé
-	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de1'=0) & (nbRelances' = nbRelances + 1);
-	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de2'=0) & (nbRelances' = nbRelances + 1);
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de1'=de3) & (de3'=0) & (nbRelances' = nbRelances + 1);
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de2'=de3) & (de3'=0) & (nbRelances' = nbRelances + 1);
 	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de3'=0) & (nbRelances' = nbRelances + 1);
 	// Relance de 2 dés
-	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de1'=0) & (de2'=0) & (nbRelances' = nbRelances + 1);
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de1'=de3) & (de3'=0) & (de2'=0) & (nbRelances' = nbRelances + 1);
 	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de2'=0) & (de3'=0) & (nbRelances' = nbRelances + 1);
-	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de2'=0) & (de3'=0) & (nbRelances' = nbRelances + 1);
+	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de1'=de2) & (de2'=0) & (de3'=0) & (nbRelances' = nbRelances + 1);
 	// Relance des 3 dés
 	[] !fini & desLances & nbRelances<NB_LANCERS-1 -> (de1'=0) & (de2'=0) & (de3'=0) & (nbRelances' = nbRelances + 1);
-
 endmodule
 
 module jeu

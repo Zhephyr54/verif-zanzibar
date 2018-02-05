@@ -39,13 +39,13 @@ module joueur1
 	[] !partieTerminee & tourJoueur=TOUR_J1 & de1J1!=0 & de2J1=0 -> 1/6 : (de2J1'=1) + 1/6 : (de2J1'=2) + 1/6 : (de2J1'=3) + 1/6 : (de2J1'=4) + 1/6 : (de2J1'=5) + 1/6 : (de2J1'=6);
 	[] !partieTerminee & tourJoueur=TOUR_J1 & de1J1!=0 & de2J1!=0 & de3J1=0 -> 1/6 : (de3J1'=1) + 1/6 : (de3J1'=2) + 1/6 : (de3J1'=3) + 1/6 : (de3J1'=4) + 1/6 : (de3J1'=5) + 1/6 : (de3J1'=6);
 	// Relance d'un seul dé
-	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees-> (de1J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
-	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees-> (de1J1'=de3J1) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=de3J1) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	// Relance de 2 dés
-	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=0) & (de2J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=de3J1) & (de3J1'=0) & (de2J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
-	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=de2J1) & (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	// Relance des 3 dés
 	[] nbJoueurRestant>0 & tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=0) & (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 

@@ -4,32 +4,32 @@
 <layout/>
 <axis autoscale="false" heading="Nombre de lancers" headingFontColourB="0" headingFontColourG="0" headingFontColourR="0" headingFontName="SansSerif" headingFontSize="12" headingFontStyle="0" logBase="10.0" logStyle="1" logarithmic="false" majorColourB="204" majorColourG="204" majorColourR="204" majorGridInterval="1.0" maxValue="3.1" maximumPower="1.0" minValue="0.9" minimumPower="0.0" numberFontColourB="0" numberFontColourG="0" numberFontColourR="0" numberFontName="SansSerif" numberFontSize="12" numberFontStyle="0" showMajor="true"/>
 <axis autoscale="true" heading="Probabilité de gagner pour le joueur 1" headingFontColourB="0" headingFontColourG="0" headingFontColourR="0" headingFontName="SansSerif" headingFontSize="12" headingFontStyle="0" logBase="10.0" logStyle="1" logarithmic="false" majorColourB="204" majorColourG="204" majorColourR="204" majorGridInterval="0.2" maxValue="1.0" maximumPower="1.0" minValue="0.0" minimumPower="0.0" numberFontColourB="0" numberFontColourG="0" numberFontColourR="0" numberFontName="SansSerif" numberFontSize="12" numberFontStyle="0" showMajor="true"/>
-<graph lineStyle="normal" lineWidth="1.0" seriesColourB="255" seriesColourG="0" seriesColourR="0" seriesHeading="Brelan d'as" seriesShape="circle" showLines="true" showPoints="true">
+<graph lineStyle="normal" lineWidth="1.0" seriesColourB="0" seriesColourG="255" seriesColourR="255" seriesHeading="Brelan d'as" seriesShape="circle" showLines="true" showPoints="true">
 <point x="1.0" y="0.9953703703703702"/>
-<point x="2.0" y="0.9741512345679008"/>
-<point x="3.0" y="0.9339188243026972"/>
+<point x="2.0" y="0.9714720507544576"/>
+<point x="3.0" y="0.925223880537773"/>
 </graph>
-<graph lineStyle="normal" lineWidth="1.0" seriesColourB="0" seriesColourG="127" seriesColourR="0" seriesHeading="Brelan de 6" seriesShape="square" showLines="true" showPoints="true">
+<graph lineStyle="normal" lineWidth="1.0" seriesColourB="204" seriesColourG="204" seriesColourR="204" seriesHeading="Brelan de 6" seriesShape="circle" showLines="true" showPoints="true">
 <point x="1.0" y="0.9907407407407406"/>
-<point x="2.0" y="0.9521604938271601"/>
-<point x="3.0" y="0.8874314128943754"/>
+<point x="2.0" y="0.9494170096021944"/>
+<point x="3.0" y="0.8793025707463289"/>
 </graph>
-<graph lineStyle="normal" lineWidth="1.0" seriesColourB="0" seriesColourG="0" seriesColourR="255" seriesHeading="Brelan de 5" seriesShape="triangle" showLines="true" showPoints="true">
+<graph lineStyle="normal" lineWidth="1.0" seriesColourB="0" seriesColourG="153" seriesColourR="255" seriesHeading="Brelan de 5" seriesShape="circle" showLines="true" showPoints="true">
 <point x="1.0" y="0.9861111111111109"/>
-<point x="2.0" y="0.9332561728395059"/>
-<point x="3.0" y="0.8524198388203015"/>
+<point x="2.0" y="0.9315200617283949"/>
+<point x="3.0" y="0.8479107724622768"/>
 </graph>
-<graph lineStyle="normal" lineWidth="1.0" seriesColourB="191" seriesColourG="191" seriesColourR="0" seriesHeading="Brelan de 4" seriesShape="rectangle_h" showLines="true" showPoints="true">
+<graph lineStyle="normal" lineWidth="1.0" seriesColourB="204" seriesColourG="51" seriesColourR="0" seriesHeading="Brelan de 4" seriesShape="circle" showLines="true" showPoints="true">
 <point x="1.0" y="0.9814814814814813"/>
-<point x="2.0" y="0.9166666666666664"/>
-<point x="3.0" y="0.8251600365797893"/>
+<point x="2.0" y="0.915980795610425"/>
+<point x="3.0" y="0.8235342681501799"/>
 </graph>
-<graph lineStyle="normal" lineWidth="1.0" seriesColourB="191" seriesColourG="0" seriesColourR="191" seriesHeading="Brelan de 3" seriesShape="rectangle_v" showLines="true" showPoints="true">
+<graph lineStyle="normal" lineWidth="1.0" seriesColourB="0" seriesColourG="0" seriesColourR="255" seriesHeading="Brelan de 3" seriesShape="circle" showLines="true" showPoints="true">
 <point x="1.0" y="0.9768518518518516"/>
-<point x="2.0" y="0.9016203703703701"/>
-<point x="3.0" y="0.8025441529492453"/>
+<point x="2.0" y="0.9015132030178324"/>
+<point x="3.0" y="0.8023025302608848"/>
 </graph>
-<graph lineStyle="normal" lineWidth="1.0" seriesColourB="0" seriesColourG="191" seriesColourR="191" seriesHeading="Brelan de 2" seriesShape="circle" showLines="true" showPoints="true">
+<graph lineStyle="normal" lineWidth="1.0" seriesColourB="0" seriesColourG="255" seriesColourR="0" seriesHeading="Brelan de 2" seriesShape="circle" showLines="true" showPoints="true">
 <point x="1.0" y="0.972222222222222"/>
 <point x="2.0" y="0.8873456790123451"/>
 <point x="3.0" y="0.7823216735253766"/>

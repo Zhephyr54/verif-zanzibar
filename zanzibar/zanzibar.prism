@@ -1,5 +1,9 @@
 // Modélisation du jeu de Zanzibar (jeu de dés)
 
+// Variante où à chaque fin du tour d'un joueur, si le dernier lancer qu'il a réalisé est un brelan,
+// son score est comptabilisé (on ne prend pas que le meilleur brelan)
+// De plus, dans ce modèle les joueurs jouent toujours dans le même ordre : joueur 1 en premier puis joueur 2
+
 // Définition du nombre de lancers maximum autorisés
 const int NB_MAX_LANCERS = 3;
 
@@ -14,10 +18,9 @@ const int POINTS_VICTOIRE = 500;
 formula partieTerminee = scoreJ1 >= POINTS_VICTOIRE | scoreJ2 >= POINTS_VICTOIRE;
 
 // Les formules suivantes s'adaptent sans besoin de modifications grâce au renommage du module du joueur1
-
 // Formule booléenne permettant de vérifier que les 3 dés ont été lancés
 formula desLancesJ1 = de1J1 != 0 & de2J1 != 0 & de3J1 != 0;
-// Formule booléene vérifiant si le joueur a réussi un brelan (3 dés identiques)
+// Formule booléenne vérifiant si le joueur a réussi un brelan (3 dés identiques)
 formula brelanJ1 = de1J1 = de2J1 & de1J1 = de3J1;
 
 dtmc
@@ -38,13 +41,13 @@ module joueur1
 	[] !partieTerminee & tourJoueur=TOUR_J1 & de1J1!=0 & de2J1=0 -> 1/6 : (de2J1'=1) + 1/6 : (de2J1'=2) + 1/6 : (de2J1'=3) + 1/6 : (de2J1'=4) + 1/6 : (de2J1'=5) + 1/6 : (de2J1'=6);
 	[] !partieTerminee & tourJoueur=TOUR_J1 & de1J1!=0 & de2J1!=0 & de3J1=0 -> 1/6 : (de3J1'=1) + 1/6 : (de3J1'=2) + 1/6 : (de3J1'=3) + 1/6 : (de3J1'=4) + 1/6 : (de3J1'=5) + 1/6 : (de3J1'=6);
 	// Relance d'un seul dé
-	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees-> (de1J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
-	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees-> (de1J1'=de3J1) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=de3J1) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	// Relance de 2 dés
-	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=0) & (de2J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=de3J1) & (de3J1'=0) & (de2J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
-	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
+	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=de2J1) & (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 	// Relance des 3 dés
 	[] tourJoueur=TOUR_J1 & desLancesJ1 & nbRelancesJ1<nbRelancesAutorisees -> (de1J1'=0) & (de2J1'=0) & (de3J1'=0) & (nbRelancesJ1' = nbRelancesJ1 + 1);
 
