@@ -9,7 +9,7 @@ const int TOUR_J1 = 1;
 const int TOUR_J2 = 2;
 
 // Définition du total de points à atteindre pour gagner
-const int POINTS_VICTOIRE = 500;
+const int POINTS_VICTOIRE = 150;
 
 formula partieTerminee = scoreJ1 >= POINTS_VICTOIRE | scoreJ2 >= POINTS_VICTOIRE;
 
@@ -122,8 +122,8 @@ module jeu
 	// C'est au joueur ayant perdu de jouer en premier au prochain tour
 	[victoireTourJ1] nbJoueurRestant=0 -> (nbJoueurRestant' = NB_JOUEURS) & (tourJoueur' = TOUR_J2);
 	[victoireTourJ2] nbJoueurRestant=0 -> (nbJoueurRestant' = NB_JOUEURS) & (tourJoueur' = TOUR_J1);
-	// Aucun brelan pour tous les joueurs
-	// C'est au joueur ayant joué en dernier de joueur en premier au prochain tour
+	// Aucun brelan pour tous les joueurs : match nul pour ce tour
+	// C'est au joueur ayant joué en dernier de jouer en premier au prochain tour
 	[tourNul] nbJoueurRestant=0 & !brelanJ1 & !brelanJ2 & tourJoueur=TOUR_J1 -> (nbJoueurRestant' = NB_JOUEURS) & (tourJoueur' = TOUR_J1);
 	[tourNul] nbJoueurRestant=0 & !brelanJ1 & !brelanJ2 & tourJoueur=TOUR_J2 -> (nbJoueurRestant' = NB_JOUEURS) & (tourJoueur' = TOUR_J2);
 

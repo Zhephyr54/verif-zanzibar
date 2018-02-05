@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE chartFormat SYSTEM "chartformat.dtd">
+<chartFormat graphTitle="" legendFontColourB="0" legendFontColourG="0" legendFontColourR="0" legendFontName="SansSerif" legendFontSize="11" legendFontStyle="0" legendPosition="right" legendVisible="true" titleFontColourB="0" titleFontColourG="0" titleFontColourR="0" titleFontName="SansSerif" titleFontSize="14" titleFontStyle="0" versionString="4.3.1">
+<layout/>
+<axis autoscale="false" heading="Valeur des dés doubles" headingFontColourB="0" headingFontColourG="0" headingFontColourR="0" headingFontName="SansSerif" headingFontSize="12" headingFontStyle="0" logBase="10.0" logStyle="1" logarithmic="false" majorColourB="204" majorColourG="204" majorColourR="204" majorGridInterval="1.0" maxValue="6.25" maximumPower="1.0" minValue="0.75" minimumPower="0.0" numberFontColourB="0" numberFontColourG="0" numberFontColourR="0" numberFontName="SansSerif" numberFontSize="12" numberFontStyle="0" showMajor="true"/>
+<axis autoscale="true" heading="Probabilité de gagner pour le joueur 1" headingFontColourB="0" headingFontColourG="0" headingFontColourR="0" headingFontName="SansSerif" headingFontSize="12" headingFontStyle="0" logBase="10.0" logStyle="1" logarithmic="false" majorColourB="204" majorColourG="204" majorColourR="204" majorGridInterval="0.2" maxValue="1.0" maximumPower="1.0" minValue="0.0" minimumPower="0.0" numberFontColourB="0" numberFontColourG="0" numberFontColourR="0" numberFontName="SansSerif" numberFontSize="12" numberFontStyle="0" showMajor="true"/>
+<graph lineStyle="normal" lineWidth="1.0" seriesColourB="255" seriesColourG="0" seriesColourR="0" seriesHeading="1 relance du dé unique" seriesShape="circle" showLines="true" showPoints="true">
+<point x="1.0" y="0.16191200845907627"/>
+<point x="2.0" y="0.1478909465020575"/>
+<point x="3.0" y="0.15025220050297206"/>
+<point x="4.0" y="0.15266346593507082"/>
+<point x="5.0" y="0.15525334362139914"/>
+<point x="6.0" y="0.1582361682670324"/>
+</graph>
+<graph lineStyle="normal" lineWidth="1.0" seriesColourB="0" seriesColourG="127" seriesColourR="0" seriesHeading="2 relances du dé unique" seriesShape="square" showLines="true" showPoints="true">
+<point x="1.0" y="0.29041532520043367"/>
+<point x="2.0" y="0.25654673449169313"/>
+<point x="3.0" y="0.2616831074836505"/>
+<point x="4.0" y="0.26704322540037356"/>
+<point x="5.0" y="0.27301872868560423"/>
+<point x="6.0" y="0.28036152531513364"/>
+</graph>
+</chartFormat>

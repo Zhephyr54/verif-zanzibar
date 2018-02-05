@@ -1,10 +1,6 @@
-// Vérification : Il y a forcément un gagnant à un moment donné = le jeu termine un jour.
-P<=0 [G gagnant = 0]
+// Vérification : Il y a forcément un gagnant à un moment donné = le jeu termine un jour
+P<=0 [ G gagnant=0 ]
 
-// Vérification : Le joueur 1 et le joueur 2 ne dépassent jamais le nombre de lancers maximum.
-P<=0 [(G nbRelancesJ1 > NB_MAX_LANCERS) & (G nbRelancesJ2 > NB_MAX_LANCERS)]
-
-// Vérification : Le joueur 2 ne relance jamais plus de fois que le joueur 1.
-// Vu que dans notre cas, c'est toujours le joueur 1 qui commence.
-P<=0 [G nbRelancesJ2 > nbRelancesJ1]
+// Vérification : Le joueur 1 et le joueur 2 ne dépassent jamais le nombre de lancers autorisés
+P<=0 [ (F nbRelancesJ1>nbRelancesAutorisees)|(F nbRelancesJ2>nbRelancesAutorisees) ]
 

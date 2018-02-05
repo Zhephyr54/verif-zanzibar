@@ -1,4 +1,6 @@
-P=? [F gagnant=1]
+// La probabilité de gagner pour le joueur 1
+P=? [ F gagnant=1 ]
 
-P=? [F gagnant=2]
+// La probabilité de gagner pour le joueur 2
+P=? [ F gagnant=2 ]
 
