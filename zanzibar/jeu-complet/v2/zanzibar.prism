@@ -9,7 +9,7 @@ const int TOUR_J1 = 1;
 const int TOUR_J2 = 2;
 
 // Définition du total de points à atteindre pour gagner
-const int POINTS_VICTOIRE = 150;
+const int POINTS_VICTOIRE = 100;
 
 formula partieTerminee = scoreJ1 >= POINTS_VICTOIRE | scoreJ2 >= POINTS_VICTOIRE;
 
